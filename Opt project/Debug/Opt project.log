@@ -1,0 +1,3 @@
+﻿  main.cpp
+C:\Users\domro\Documents\Opt 2021\main.cpp(139,18): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  Opt project.vcxproj -> C:\Users\domro\source\repos\Opt project\Debug\Opt project.exe

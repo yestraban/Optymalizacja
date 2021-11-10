@@ -151,17 +151,13 @@ int main()
 			x0(0, 0) = x01;
 			x0(1, 0) = x02;
 			//std::cout << x0 << endl;
-			solution hjSol = HJ(x0, s[1], 0.00001, 0.00001, 10000000);
+			//solution hjSol = HJ(x0, s[1], 0.00001, 0.00001, 10000000);
 			//plik1 << x01<<";"<<x02<<";"<<  hjSol.x(0, 0) << ";" << hjSol.x(1, 0) << ";" << hjSol.y[0] <<";"<< solution::f_calls << endl;
 			solution::f_calls = 0;
 
 			solution X(x0);
 			int n = get_dim(X);
-			matrix s0(s[1]);
-			//for (int i = 0; i < n; i++) 
-			//{
-			//	s0(i) = s[1];
-			//}
+			matrix s0 = matrix(2, 1, s[1]);
 			solution rosSol = Rosen(x0, s0, 1.01, 0.1, 0.00001, 10000000);
 			//cout << x01 << ";" << x02 << ";" << rosSol.x(0, 0) << ";" << rosSol.x(1, 0) << ";" << rosSol.y[0] << ";" << solution::f_calls << endl;
 			solution::f_calls = 0;

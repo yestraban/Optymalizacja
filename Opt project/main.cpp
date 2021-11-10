@@ -137,7 +137,7 @@ int main()
 
 #elif LAB_NO==3 && LAB_PART==1
 		std::srand(time(NULL));
-		double s[3] = { 0.1, 0.5, 1.0 };
+		double s[3] = { 0.1, 0.5, 0.7 };
 		ofstream plik1("konspekt_2_f_1.csv");
 		ofstream plik2("konspekt_2_f_2.csv");
 		for (int i = 0; i < 100; i++)
@@ -151,15 +151,15 @@ int main()
 			x0(0, 0) = x01;
 			x0(1, 0) = x02;
 			//std::cout << x0 << endl;
-			//solution hjSol = HJ(x0, s[1], 0.00001, 0.00001, 10000000);
-			//plik1 << x01<<";"<<x02<<";"<<  hjSol.x(0, 0) << ";" << hjSol.x(1, 0) << ";" << hjSol.y[0] <<";"<< solution::f_calls << endl;
+			solution hjSol = HJ(x0, s[2], 0.00001, 0.00001, 10000000);
+			plik1 << x01<<";"<<x02<<";"<<  hjSol.x(0, 0) << ";" << hjSol.x(1, 0) << ";" << hjSol.y[0] <<";"<< solution::f_calls << endl;
 			solution::f_calls = 0;
 
 			solution X(x0);
 			int n = get_dim(X);
-			matrix s0 = matrix(2, 1, s[1]);
+			matrix s0 = matrix(2, 1, s[2]);
 			solution rosSol = Rosen(x0, s0, 1.01, 0.1, 0.00001, 10000000);
-			cout << x01 << ";" << x02 << ";" << rosSol.x(0, 0) << ";" << rosSol.x(1, 0) << ";" << rosSol.y[0] << solution::f_calls << endl;
+			plik2 << x01 << ";" << x02 << ";" << rosSol.x(0, 0) << ";" << rosSol.x(1, 0) << ";" << rosSol.y[0] << solution::f_calls << endl;
 			solution::f_calls = 0;
 		}
 

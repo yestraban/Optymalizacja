@@ -157,6 +157,7 @@ solution lag(double a, double b, double epsilon, double gamma, int Nmax, matrix 
 #if LAB_NO>2
 solution HJ(matrix x0, double s, double alpha, double epsilon, int Nmax, matrix *ud, matrix *ad)
 {
+	ofstream plik2("konspekt_2_f_wykres2.csv");
 	solution XB(x0), XB_old, X;
 	XB.fit_fun(ud, ad);
 	while (true)
@@ -179,12 +180,16 @@ solution HJ(matrix x0, double s, double alpha, double epsilon, int Nmax, matrix 
 				if (X.y == XB.y)
 					return XB;
 			}
+			cout << XB.x(0, 0) << ";" << XB.x(1, 0) << endl;
+			plik2 << XB.x(0, 0) << ";" << XB.x(1, 0) << endl;
+			
 		}
 		else
 			s = alpha * s;
 		if (s<epsilon)
 			return XB;
 	}
+	cout << endl << endl;
 }
 
 solution HJ_trial(solution XB, double s, matrix *ud, matrix *ad)
@@ -211,10 +216,12 @@ solution HJ_trial(solution XB, double s, matrix *ud, matrix *ad)
 
 solution Rosen(matrix x0, matrix s0, double alpha, double beta, double epsilon, int Nmax, matrix *ud, matrix *ad)
 {
+	ofstream plik("konspekt_2_f_wykres.csv");
 	solution X(x0), Xt;
 	int n = get_dim(X);
 	matrix l(n, 1), p(n, 1), s(s0), D = ident_mat(n);
 	X.fit_fun(ud, ad);
+	cout << X.x(0, 0) << ";" << X.x(1, 0) << endl;
 	while (true)
 	{
 		for (int i = 0; i < n; ++i)
@@ -264,6 +271,8 @@ solution Rosen(matrix x0, matrix s0, double alpha, double beta, double epsilon, 
 			l = matrix(n, 1);
 			p = matrix(n, 1);
 		}
+		plik << X.x(0, 0) << ";" << X.x(1, 0) << endl;
+		//cout << X.x(0, 0) << ";" << X.x(1, 0) << endl;
 		double max_s = abs(s(0));
 		for (int i = 1; i < n; ++i)
 			if (max_s < abs(s(i)))

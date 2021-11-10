@@ -159,7 +159,7 @@ int main()
 			int n = get_dim(X);
 			matrix s0 = matrix(2, 1, s[1]);
 			solution rosSol = Rosen(x0, s0, 1.01, 0.1, 0.00001, 10000000);
-			//cout << x01 << ";" << x02 << ";" << rosSol.x(0, 0) << ";" << rosSol.x(1, 0) << ";" << rosSol.y[0] << ";" << solution::f_calls << endl;
+			cout << x01 << ";" << x02 << ";" << rosSol.x(0, 0) << ";" << rosSol.x(1, 0) << ";" << rosSol.y[0] << solution::f_calls << endl;
 			solution::f_calls = 0;
 		}
 

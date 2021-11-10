@@ -219,22 +219,22 @@ solution Rosen(matrix x0, matrix s0, double alpha, double beta, double epsilon, 
 	{
 		for (int i = 0; i < n; ++i)
 		{
-			Xt.x = X.x+s0[i]*D[i];
+			Xt.x = X.x+s(i)*D[i];
 			Xt.fit_fun(ud, ad);
 			if (Xt.y<X.y)
 			{
 				X = Xt;
 				l(i) = l(i) + s(i);
-				s(i + 1) = alpha * s(i);  //poprawiæ na okr¹g³e
+				s(i) = alpha * s(i);  //poprawiæ na okr¹g³e
 			}
 			else
 			{
-				s(i + 1) = -beta * s(i);
-				p(i + 1) = p(i) + 1;
+				s(i) = -beta * s(i);
+				p(i) = p(i) + 1;
 			}
 		}
 #if LAB_NO==3 && LAB_PART==2
-		???
+		(*ud).add_row(trans(X.x));
 #endif
 		bool change = true;
 		for (int i = 0; i < n; ++i)
@@ -247,7 +247,7 @@ solution Rosen(matrix x0, matrix s0, double alpha, double beta, double epsilon, 
 		{
 			matrix Q(n,n), v(n,1);
 			for (int i = 0; i<n; ++i)
-				for (int j = 0; j<i; ++j)
+				for (int j = 0; j<=i; ++j)
 					Q(i, j) = l(i);
 			Q = Q * D;
 			v = Q[0] / norm(Q[0]);
@@ -257,23 +257,85 @@ solution Rosen(matrix x0, matrix s0, double alpha, double beta, double epsilon, 
 				matrix temp(n, 1);
 				for (int j = 0; j < n; ++j)
 					temp = temp + (trans(Q[i]) * D[j])*D[j];  //sprawdzi to
-				v = v - temp;
+				v = (Q[i] - temp) / norm(Q[i] - temp);
 				D.set_col(v, i);
 			}
-			for (int i = 0; i < n; i++) {
-				l(i) = 0;
-				p(i) = 0;
-			}
 			s = s0;
+			l = matrix(n, 1);
+			p = matrix(n, 1);
 		}
 		double max_s = abs(s(0));
 		for (int i = 1; i < n; ++i)
 			if (max_s < abs(s(i)))
 				max_s = abs(s(i));
-		if (solution::f_calls<Nmax  || max_s < epsilon) 
+		if (solution::f_calls>Nmax  || max_s < epsilon) 
 			return X;
 	}
 }
+
+//solution Rosen(matrix x0, matrix s0, double alpha, double beta, double epsilon, int Nmax, matrix* ud, matrix* ad)
+//{
+//	solution X(x0), Xt;
+//	int n = get_dim(X);
+//	matrix l(n, 1), p(n, 1), s(s0), D = ident_mat(n);
+//	X.fit_fun(ud, ad);
+//	while (true)
+//	{
+//		for (int i = 0; i < n; ++i)
+//		{
+//			Xt.x = X.x + s(i) * D[i];
+//			Xt.fit_fun(ud, ad);
+//			if (Xt.y < X.y)
+//			{
+//				X = Xt;
+//				l(i) += s(i);
+//				s(i) *= alpha;
+//			}
+//			else
+//			{
+//				++p(i);
+//				s(i) *= -beta;
+//			}
+//		}
+//#if LAB_NO==3 && LAB_PART==2
+//		(*ud).add_row(trans(X.x));
+//#endif
+//		bool change = true;
+//		for (int i = 0; i < n; ++i)
+//			if (l(i) == 0 || p(i) == 0)
+//			{
+//				change = false;
+//				break;
+//			}
+//		if (change)
+//		{
+//			matrix Q(n, n), v(n, 1);
+//			for (int i = 0; i < n; ++i)
+//				for (int j = 0; j <= i; ++j)
+//					Q(i, j) = l(i);
+//			Q = D * Q;
+//			v = Q[0] / norm(Q[0]);
+//			D.set_col(v, 0);
+//			for (int i = 1; i < n; ++i)
+//			{
+//				matrix temp(n, 1);
+//				for (int j = 0; j < i; ++j)
+//					temp = temp + trans(Q[i]) * D[j] * D[j];
+//				v = (Q[i] - temp) / norm(Q[i] - temp);
+//				D.set_col(v, i);
+//			}
+//			s = s0;
+//			l = matrix(n, 1);
+//			p = matrix(n, 1);
+//		}
+//		double max_s = abs(s(0));
+//		for (int i = 1; i < n; ++i)
+//			if (max_s < abs(s(i)))
+//				max_s = abs(s(i));
+//		if (max_s<epsilon || solution::f_calls>Nmax)
+//			return X;
+//	}
+//}
 #endif
 #if LAB_NO>3
 solution pen(matrix x0, double c0, double dc, double epsilon, int Nmax, matrix *ud, matrix *ad)

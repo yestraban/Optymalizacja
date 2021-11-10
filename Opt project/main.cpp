@@ -138,7 +138,8 @@ int main()
 #elif LAB_NO==3 && LAB_PART==1
 		std::srand(time(NULL));
 		double s[3] = { 0.1, 0.5, 1.0 };
-		ofstream plik("konspekt_2_f_1.csv");
+		ofstream plik1("konspekt_2_f_1.csv");
+		ofstream plik2("konspekt_2_f_2.csv");
 		for (int i = 0; i < 100; i++)
 		{
 			double x01 = rand() % 200 - 100;
@@ -151,8 +152,23 @@ int main()
 			x0(1, 0) = x02;
 			//std::cout << x0 << endl;
 			solution hjSol = HJ(x0, s[1], 0.00001, 0.00001, 10000000);
-			cout <<  hjSol.x(0,0) << "  " << hjSol.x(1,0)<<" / "<< hjSol.y[0] << endl;
+			//plik1 << x01<<";"<<x02<<";"<<  hjSol.x(0, 0) << ";" << hjSol.x(1, 0) << ";" << hjSol.y[0] <<";"<< solution::f_calls << endl;
+			solution::f_calls = 0;
+
+			solution X(x0);
+			int n = get_dim(X);
+			matrix s0(s[1]);
+			//for (int i = 0; i < n; i++) 
+			//{
+			//	s0(i) = s[1];
+			//}
+			solution rosSol = Rosen(x0, s0, 1.01, 0.1, 0.00001, 10000000);
+			//cout << x01 << ";" << x02 << ";" << rosSol.x(0, 0) << ";" << rosSol.x(1, 0) << ";" << rosSol.y[0] << ";" << solution::f_calls << endl;
+			solution::f_calls = 0;
 		}
+
+		plik1.close();
+		plik2.close();
 #elif LAB_NO==3 && LAB_PART==2
 		
 #elif LAB_NO==3 && LAB_PART==3

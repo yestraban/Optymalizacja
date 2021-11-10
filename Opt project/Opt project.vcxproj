@@ -18,6 +18,20 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="lab_no.h" />
+    <ClInclude Include="matrix.h" />
+    <ClInclude Include="ode_solver.h" />
+    <ClInclude Include="opt_alg.h" />
+    <ClInclude Include="solution.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="matrix.cpp" />
+    <ClCompile Include="ode_solver.cpp" />
+    <ClCompile Include="opt_alg.cpp" />
+    <ClCompile Include="solution.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -138,20 +152,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\..\..\Documents\Opt 2021\lab_no.h" />
-    <ClInclude Include="..\..\..\..\Documents\Opt 2021\matrix.h" />
-    <ClInclude Include="..\..\..\..\Documents\Opt 2021\ode_solver.h" />
-    <ClInclude Include="..\..\..\..\Documents\Opt 2021\opt_alg.h" />
-    <ClInclude Include="..\..\..\..\Documents\Opt 2021\solution.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\..\..\..\Documents\Opt 2021\main.cpp" />
-    <ClCompile Include="..\..\..\..\Documents\Opt 2021\matrix.cpp" />
-    <ClCompile Include="..\..\..\..\Documents\Opt 2021\ode_solver.cpp" />
-    <ClCompile Include="..\..\..\..\Documents\Opt 2021\opt_alg.cpp" />
-    <ClCompile Include="..\..\..\..\Documents\Opt 2021\solution.cpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

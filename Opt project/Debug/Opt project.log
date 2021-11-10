@@ -1,3 +1,4 @@
 ﻿  main.cpp
-C:\Users\domro\Documents\Opt 2021\main.cpp(139,18): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-  Opt project.vcxproj -> C:\Users\domro\source\repos\Opt project\Debug\Opt project.exe
+C:\Users\lucza\OneDrive\Dokumenty\GitHub\Optymalizacja\Opt project\main.cpp(139,18): warning C4244: "argument": konwersja z "time_t" do "unsigned int", możliwa utrata danych
+C:\Users\lucza\OneDrive\Dokumenty\GitHub\Optymalizacja\Opt project\main.cpp(160,17): warning C4244: "argument": konwersja z "double" do "int", możliwa utrata danych
+  Opt project.vcxproj -> C:\Users\lucza\OneDrive\Dokumenty\GitHub\Optymalizacja\Debug\Opt project.exe

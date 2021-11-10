@@ -15,36 +15,36 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\Documents\Opt 2021\lab_no.h">
+    <ClInclude Include="lab_no.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\Documents\Opt 2021\matrix.h">
+    <ClInclude Include="matrix.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\Documents\Opt 2021\ode_solver.h">
+    <ClInclude Include="ode_solver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\Documents\Opt 2021\opt_alg.h">
+    <ClInclude Include="opt_alg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\Documents\Opt 2021\solution.h">
+    <ClInclude Include="solution.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\Documents\Opt 2021\main.cpp">
+    <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\Documents\Opt 2021\matrix.cpp">
+    <ClCompile Include="matrix.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\Documents\Opt 2021\ode_solver.cpp">
+    <ClCompile Include="ode_solver.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\Documents\Opt 2021\opt_alg.cpp">
+    <ClCompile Include="opt_alg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\Documents\Opt 2021\solution.cpp">
+    <ClCompile Include="solution.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

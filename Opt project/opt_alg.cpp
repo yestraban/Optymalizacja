@@ -180,8 +180,8 @@ solution HJ(matrix x0, double s, double alpha, double epsilon, int Nmax, matrix 
 				if (X.y == XB.y)
 					return XB;
 			}
-			cout << XB.x(0, 0) << ";" << XB.x(1, 0) << endl;
-			plik2 << XB.x(0, 0) << ";" << XB.x(1, 0) << endl;
+			//cout << XB.x(0, 0) << ";" << XB.x(1, 0) << endl;
+			//plik2 << XB.x(0, 0) << ";" << XB.x(1, 0) << endl;
 			
 		}
 		else
@@ -271,7 +271,7 @@ solution Rosen(matrix x0, matrix s0, double alpha, double beta, double epsilon, 
 			l = matrix(n, 1);
 			p = matrix(n, 1);
 		}
-		plik << X.x(0, 0) << ";" << X.x(1, 0) << endl;
+		//plik << X.x(0, 0) << ";" << X.x(1, 0) << endl;
 		//cout << X.x(0, 0) << ";" << X.x(1, 0) << endl;
 		double max_s = abs(s(0));
 		for (int i = 1; i < n; ++i)

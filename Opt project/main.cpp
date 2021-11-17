@@ -166,9 +166,36 @@ int main()
 		plik1.close();
 		plik2.close();
 #elif LAB_NO==3 && LAB_PART==2
+		matrix x0(2, 1);
+		x0(0, 0) = 0;
+		x0(1, 0) = 0;
 		
+		solution hjSol = HJ(x0, 0.3, 0.00001, 0.00001, 10000000);
+		cout <<  hjSol.x(0, 0) << ";" << hjSol.x(1, 0) << ";" << hjSol.y[0]<< solution::f_calls << endl;
+		solution::f_calls = 0;
+
+		cout << endl;
+
+		matrix s0 = matrix(2, 1, 0.3);
+		solution rosSol = Rosen(x0, s0, 1.01, 0.1, 0.00001, 10000000);
+		cout  << rosSol.x(0, 0) << ";" << rosSol.x(1, 0) << ";" << rosSol.y[0] << solution::f_calls << endl;
 #elif LAB_NO==3 && LAB_PART==3
+	
 		
+		matrix x(2, 1);
+		x(0, 0) = 1.5;
+		x(1, 0) = 1.5;
+
+		matrix x2(2, 1);
+		x2(0, 0) = 1.5347;
+		x2(1, 0) = 1.67163;
+
+		matrix* ud = nullptr;
+		matrix Y0(2, 1);
+
+		//matrix* Y = solve_ode(0, 0.1, 100, Y0, ud, &x);
+		matrix* Y = solve_ode(0, 0.1, 100, Y0, ud, &x2);
+
 #elif LAB_NO==4 && LAB_PART==1
 		
 #elif LAB_NO==4 && LAB_PART==2

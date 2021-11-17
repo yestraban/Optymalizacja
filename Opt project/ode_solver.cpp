@@ -2,7 +2,7 @@
 //(unless you know what you are doing)
 
 #include"ode_solver.h"
-ofstream plik("konspekt_1_pr_2.csv");
+ofstream plik("konspekt_2_symulacja.csv");
 
 
 matrix *solve_ode(double t0, double dt, double tend, const matrix &Y0, matrix *ud, matrix *ad)
@@ -81,6 +81,22 @@ matrix diff(double t, const matrix &Y, matrix *ud, matrix *ad)
 	return dY;
 #elif LAB_NO==3 && LAB_PART==3
 	
+	double l = 0.5;
+	double mr = 1;
+	double mc = 10;
+	double b = 0.5;
+	double alpha = 3.14;
+	double omega = 0;
+	double I, M, k1, k2;
+	k1 = (*ad)(0);
+	k2 = (*ad)(1);
+	I = (1 / 3) * mr * l * l + mc * l * l;
+	M = k1 * (alpha - Y(0)) + k2 * (omega - Y(1));
+	matrix dY(2, 1);
+	dY(0) = Y(1);		//pochodna 1 stopnia
+	dY(1) = (M - b * Y(1)) / I;  //pochodna 2 stopnia wyznaczona z przekszta³cenia wzoru
+	return dY;
+
 #elif LAB_NO==4 && LAB_PART==2
 	
 #elif LAB_NO==7 && LAB_PART==2

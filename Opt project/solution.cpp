@@ -56,7 +56,7 @@ ostream &operator<<(ostream &S, const solution &A)
 
 //You can edit the following code
 
-void solution::fit_fun(matrix *ud, matrix *ad)
+void solution::fit_fun(matrix* ud, matrix* ad)
 {
 	++f_calls;
 #if LAB_NO==1 && (LAB_PART==1 || LAB_PART==2)
@@ -75,10 +75,25 @@ void solution::fit_fun(matrix *ud, matrix *ad)
 			max = Y[1](i, 2);
 	y = abs(max - 50);
 #elif LAB_NO==3 && (LAB_PART==1 || LAB_PART==2)
-	y = x(0) * x(0) + x(1)*x(1) - cos(2.5*3.1415*x(0)) - cos(2.5*3.1415*x(1)) + 2;
-	
+	y = x(0) * x(0) + x(1) * x(1) - cos(2.5 * 3.1415 * x(0)) - cos(2.5 * 3.1415 * x(1)) + 2;
+
 #elif LAB_NO==3 && LAB_PART==3
-	
+	matrix Y0(2, 1);
+	matrix* Y = solve_ode(0, 0.1, 100, Y0, ud, &x);
+
+	double alpha_ref = 3.14; //sta³a alfa ref w radianach
+	double omega_ref = 0; // 0rad/s
+	int n = get_len(Y[0]);
+	y = 0;
+	for (int i = 0; i < n; i++)
+	{
+		y = y + 10*pow(alpha_ref - Y[1](i, 0), 2);
+		y = y + pow(omega_ref - Y[1](i, 1), 2);
+		y = y + pow(x(0) * (alpha_ref - Y[1](i, 0))*(omega_ref - Y[1](i,1)),2);
+	}
+
+
+
 #elif LAB_NO==4 && LAB_PART==1
 	
 #elif LAB_NO==4 && LAB_PART==2

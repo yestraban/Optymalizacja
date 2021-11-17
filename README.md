@@ -1,5 +1,5 @@
 # Optymalizacja
-Repozytorium do zajęć z optymalizacji 2021
+Repozytorium do zajęć z optymalizacji 2021 /n
 /***************************************************
 Code written for the optimization exercises purposes
 by Lukasz Sztangret, PhD

@@ -140,6 +140,7 @@ int main()
 		double s[3] = { 0.1, 0.5, 0.7 };
 		ofstream plik1("konspekt_2_f_1.csv");
 		ofstream plik2("konspekt_2_f_2.csv");
+
 		for (int i = 0; i < 100; i++)
 		{
 			double x01 = rand() % 200 - 100;
@@ -155,8 +156,7 @@ int main()
 			plik1 << x01<<";"<<x02<<";"<<  hjSol.x(0, 0) << ";" << hjSol.x(1, 0) << ";" << hjSol.y[0] <<";"<< solution::f_calls << endl;
 			solution::f_calls = 0;
 
-			solution X(x0);
-			int n = get_dim(X);
+			
 			matrix s0 = matrix(2, 1, s[2]);
 			solution rosSol = Rosen(x0, s0, 1.01, 0.1, 0.00001, 10000000);
 			plik2 << x01 << ";" << x02 << ";" << rosSol.x(0, 0) << ";" << rosSol.x(1, 0) << ";" << rosSol.y[0] << solution::f_calls << endl;
@@ -179,6 +179,7 @@ int main()
 		matrix s0 = matrix(2, 1, 0.3);
 		solution rosSol = Rosen(x0, s0, 1.01, 0.1, 0.00001, 10000000);
 		cout  << rosSol.x(0, 0) << ";" << rosSol.x(1, 0) << ";" << rosSol.y[0] << solution::f_calls << endl;
+
 #elif LAB_NO==3 && LAB_PART==3
 	
 		
@@ -197,7 +198,26 @@ int main()
 		matrix* Y = solve_ode(0, 0.1, 100, Y0, ud, &x2);
 
 #elif LAB_NO==4 && LAB_PART==1
-		
+
+		matrix x0;
+		double c = 1;
+		double a[3] = { 4, 4.4934, 5 };
+		for (int i = 0; i < 100; i++)
+		{
+
+			do
+				x0 = 5 * rand_mat(2, 1) + 1;
+			while (norm(x0) > a[0]); //a to s¹ alfy z konspektu
+
+			cout << x0(0, 0) << " " << x0(1, 0)<<endl;
+
+			solution sn = pen(x0, c = 1, 2, 0.00001, 100000);
+			cout<< sn
+			cout<<
+
+		}
+
+
 #elif LAB_NO==4 && LAB_PART==2
 		
 #elif LAB_NO==5 && LAB_PART==1

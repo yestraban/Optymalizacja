@@ -144,7 +144,7 @@ solution lag(double a, double b, double epsilon, double gamma, int Nmax, matrix 
 		}
 		
 #if LAB_NO==2 && LAB_PART==2
-		* (ud).addrow((B.x() - A.x());
+	//	* (ud).addrow((B.x() - A.x());
 #endif
 		
 		//if (B.x - A.x <epsilon || abs(D.x(0) - D_old.x(0))<gamma || solution::f_calls>Nmax)
@@ -170,14 +170,14 @@ solution HJ(matrix x0, double s, double alpha, double epsilon, int Nmax, matrix 
 				XB_old = XB;
 				XB = X;
 #if LAB_NO==3 && LAB_PART==2
-				? ? ?
+				//? ? ?
 #endif
 				X.x = 2 * XB.x - XB_old.x;
 				X.fit_fun(ud, ad);
 				X = HJ_trial(X, s, ud, ad);
 				if (X.y > XB.y)
 					break;
-				if (X.y == XB.y)
+				if (solution::f_calls>Nmax)
 					return XB;
 			}
 			//cout << XB.x(0, 0) << ";" << XB.x(1, 0) << endl;
@@ -199,7 +199,7 @@ solution HJ_trial(solution XB, double s, matrix *ud, matrix *ad)
 	solution X;
 	for (int i = 0; i < n; ++i)
 	{
-		X.x = XB.x + s * D[i];	//czy to dobrze
+		X.x = XB.x + s * D[i];	//czy to dobrze tak
 		X.fit_fun(ud, ad);
 		if (X.y<XB.y)
 			XB =X;
@@ -241,7 +241,7 @@ solution Rosen(matrix x0, matrix s0, double alpha, double beta, double epsilon, 
 			}
 		}
 #if LAB_NO==3 && LAB_PART==2
-		(*ud).add_row(trans(X.x));
+	//	(*ud).add_row(trans(X.x));
 #endif
 		bool change = true;
 		for (int i = 0; i < n; ++i)
@@ -262,7 +262,7 @@ solution Rosen(matrix x0, matrix s0, double alpha, double beta, double epsilon, 
 			for (int i = 1; i<n; ++i)  //tu te¿
 			{
 				matrix temp(n, 1);
-				for (int j = 0; j < n; ++j)
+				for (int j = 0; j < i; ++j)
 					temp = temp + (trans(Q[i]) * D[j])*D[j];  //sprawdzi to
 				v = (Q[i] - temp) / norm(Q[i] - temp);
 				D.set_col(v, i);
@@ -347,18 +347,18 @@ solution Rosen(matrix x0, matrix s0, double alpha, double beta, double epsilon, 
 //}
 #endif
 #if LAB_NO>3
-solution pen(matrix x0, double c0, double dc, double epsilon, int Nmax, matrix *ud, matrix *ad)
+solution pen(matrix x0, double c0, double dc, double epsilon, int Nmax, matrix *ud, matrix *ad) //dc=2
 {
 	double alpha = 1, beta = 0.5, gamma = 2, delta = 0.5, s = 0.5;
-	solution X(???), X1;
+	solution X(x0), X1;
 	matrix c(2, new double[2]{ c0,dc });
 	while (true)
 	{
 		X1 = sym_NM(X.x, s, alpha, beta, gamma, delta, epsilon, Nmax, ud, &c);
-		if (???)
+		if (abs(X1.x(0)-X.x(0))<epsilon || solution::f_calls>Nmax)
 			return X1;
-		???
-		???
+		X = X1;
+		c(0) =c(0)* dc;
 	}
 }
 
@@ -368,11 +368,11 @@ solution sym_NM(matrix x0, double s, double alpha, double beta, double gamma, do
 	matrix D = ident_mat(n);
 	int N = n + 1;
 	solution *S = new solution[N];
-	S[0].x = ???;
+	S[0].x = x0;		//lambdy???
 	S[0].fit_fun(ud, ad);
 	for (int i = 1; i < N; ++i)
 	{
-		S[i].x = ???
+		S[i].x = S[0].x + s*D[i-1]; //+lambda*di
 		S[i].fit_fun(ud, ad);
 	}
 	solution PR, PE, PN;
@@ -381,52 +381,53 @@ solution sym_NM(matrix x0, double s, double alpha, double beta, double gamma, do
 	while (true)
 	{
 		i_min = i_max = 0;
-		for (int i = 1; i < N; ++i)
+		for (int i = 1; i < N; ++i)//szukanie pmin pmax
 		{
-			if (???)
+			if (S[i].y < S[i_min].y)
 				i_min = i;
-			if (???)
+			if (S[i].y > S[i_max].y)
 				i_max = i;
 		}
-		pc = matrix(???);
+		pc = matrix(n, 1);
 		for (int i = 0; i < N; ++i)
-			if (???)
-				???
-		pc = pc / (???);
-		PR.x = ???
+			if (i != i_max)
+				pc = pc + S[i].x;
+		pc = pc / (n);
+		PR.x = pc + alpha * (pc - S[i_max].x);
 		PR.fit_fun(ud, ad);
-		if (???)
-			S[i_max] = ???
-		else if (???)
+		if (S[i_min].y <= PR.y < S[i_max].y)
+			S[i_max] = PR;				//idk czy tak
+		else if (PR.y<S[i_min].y)		//porównaæ kod
 		{
-			PE.x = ???
+			PE.x = pc + gamma * (PR.x - pc);
 			PE.fit_fun(ud, ad);
-			if (???)
-				S[i_max] = ???
+			if (PE.y < PR.y)
+				S[i_max] = PE;
 			else
-				S[i_max] = ???
+				S[i_max] = PR;
 		}
 		else
 		{
-			PN.x = ???
+			PN.x = pc + beta * (S[i_max].x - pc);
 			PN.fit_fun(ud, ad);
-			if (???)
-				S[i_max] = ???
+			if (PN.y < S[i_max].y)
+				S[i_max] = PN;
 			else
 			{
 				for (int i = 0; i < N; ++i)
-					if (???)
+					if (i!=i_min)
 					{
-						S[i].x = ???
+						S[i].x = delta*(S[i].x + S[i_min].x);
 						S[i].fit_fun(ud, ad);
 					}
 			}
 		}
-		double max_s = ???
+		double max_s = norm(S[i_min].x - S[0].x);
+		 
 		for (int i = 1; i < N; ++i)
-			if (max_s < ???)
-				max_s = ???
-		if (???)
+			if (max_s < norm(S[i_min].x - S[i].x))
+				max_s = norm(S[i_min].x - S[i].x);
+		if (max_s<epsilon)
 			return S[i_min];
 	}
 }

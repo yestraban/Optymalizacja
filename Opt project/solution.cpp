@@ -95,7 +95,10 @@ void solution::fit_fun(matrix* ud, matrix* ad)
 
 
 #elif LAB_NO==4 && LAB_PART==1
-	
+	y = sin(3.1415 * sqrt(pow(x(0) / 3.1415, 2) + pow(x(1) / 3.1415, 2)));
+	y = y / (3.1415 * sqrt(pow(x(0) / 3.1415, 2) + pow(x(1) / 3.1415, 2)));
+
+
 #elif LAB_NO==4 && LAB_PART==2
 	
 #elif LAB_NO==5 && (LAB_PART==1 || LAB_PART==2)

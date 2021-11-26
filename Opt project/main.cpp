@@ -200,20 +200,20 @@ int main()
 #elif LAB_NO==4 && LAB_PART==1
 
 		matrix x0;
-		double c = 1;
+		double c = 10;
 		double a[3] = { 4, 4.4934, 5 };
 		for (int i = 0; i < 100; i++)
 		{
 
 			do
 				x0 = 5 * rand_mat(2, 1) + 1;
-			while (norm(x0) > a[0]); //a to s¹ alfy z konspektu
+			while (norm(x0) > a[1]); //a to s¹ alfy z konspektu
 
 			cout << x0(0, 0) << " " << x0(1, 0)<<endl;
 
-			solution sn = pen(x0, c = 1, 2, 0.00001, 100000);
-			cout<< sn
-			cout<<
+			solution sn = pen(x0, c, 0.5, 0.00001, 100000);
+
+			cout << sn.x(0, 0) << ";" << sn.x(1, 0) << ";" << sn.y[0] << solution::f_calls << endl;
 
 		}
 

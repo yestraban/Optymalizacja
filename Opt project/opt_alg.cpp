@@ -355,7 +355,7 @@ solution pen(matrix x0, double c0, double dc, double epsilon, int Nmax, matrix *
 	while (true)
 	{
 		X1 = sym_NM(X.x, s, alpha, beta, gamma, delta, epsilon, Nmax, ud, &c);
-		if (abs(X1.x(0)-X.x(0))<epsilon || solution::f_calls>Nmax)
+		if (norm(X1.x-X.x)<epsilon || solution::f_calls>Nmax)
 			return X1;
 		X = X1;
 		c(0) =c(0)* dc;
@@ -433,7 +433,7 @@ solution sym_NM(matrix x0, double s, double alpha, double beta, double gamma, do
 }
 #endif
 #if LAB_NO>4
-solution SD(matrix x0, double h0, double epsilon, int Nmax, matrix *ud, matrix *ad)
+solution SD(matrix x0, double h0, double epsilon, int Nmax, matrix *ud, matrix *ad)//najszybszego spadku
 {
 	int n = get_len(x0);
 	solution X, X1;
@@ -444,30 +444,30 @@ solution SD(matrix x0, double h0, double epsilon, int Nmax, matrix *ud, matrix *
 	while (true)
 	{
 		X.grad();
-		d = ???
-		if (h0<0)
+		d = -X.g;
+		if (h0 < 0)
 		{
-			P[0] = ???
-			P[1] = ???
-			ab = ???
-			h = ???
-			X1.x = ???
+			P[0] = X.x;
+			P[1] = d;
+			ab = expansion(0, 1, 1.2, Nmax, ud, P);
+				h = golden(ab[0], ab[1], epsilon, Nmax);
+				X1.x = X.x + h * d;
 		}
 		else
-			X1.x = ???
+			X1.x = X.x + h0 * d;
 #if LAB_NO==5 && LAB_PART==2
 		???
 #endif
-		if (???)
+		if (norm(X1.x-X.x)<epsilon || solution::f_calls>Nmax)
 		{
 			X1.fit_fun(ud, ad);
 			return X1;
 		}
-		???
+		X = X1;
 	}
 }
 
-solution CG(matrix x0, double h0, double epsilon, int Nmax, matrix *ud, matrix *ad)
+solution CG(matrix x0, double h0, double epsilon, int Nmax, matrix *ud, matrix *ad)//gradientów sprê¿onych
 {
 	int n = get_len(x0);
 	solution X, X1;
@@ -541,37 +541,37 @@ solution Newton(matrix x0, double h0, double epsilon, int Nmax, matrix *ud, matr
 
 solution golden(double a, double b, double epsilon, int Nmax, matrix *ud, matrix *ad)
 {
-	double alfa = ???
+	double alfa = (sqrt(5) - 1) / 2;
 	solution A, B, C, D;
 	A.x = a;
 	B.x = b;
-	C.x = ???
+	C.x = b - alfa * (b - a);
 	C.fit_fun(ud, ad);
-	D.x = ???
+	D.x = a + alfa * (b - a);
 	D.fit_fun(ud, ad);
 	while (true)
 	{
-		if (???)
+		if (C.y<D.y)
 		{
-			???
-			???
-			???
+			B.x = D.x;
+			D.x = C.x;
+			C.x = B.x - alfa*(B.x - A.x);
 			C.fit_fun(ud, ad);
 		}
 		else
 		{
-			???
-			???
-			???
+			A.x = C.x;
+			C.x = D.x;
+			D.x = A.x + alfa * (B.x - A.x);
 			D.fit_fun(ud, ad);
 		}
-		if (???)
+		if (B.x-A.x < epsilon)
 		{
-			A.x = ???
+			A.x = (A.x + B.x) / 2;
 			A.fit_fun(ud, ad);
 			return A;
 		}
-	}
+	} 
 }
 
 #endif

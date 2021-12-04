@@ -198,24 +198,32 @@ int main()
 		matrix* Y = solve_ode(0, 0.1, 100, Y0, ud, &x2);
 
 #elif LAB_NO==4 && LAB_PART==1
-
+	
+		ofstream plik1("konspekt_3_f_1.csv");
 		matrix x0;
-		double c = 10;
-		double a[3] = { 4, 4.4934, 5 };
+		double c_zew = 1, c_wew=10;
+		matrix a[3] = { 4, 4.4934, 5 };
+		
 		for (int i = 0; i < 100; i++)
 		{
 
 			do
 				x0 = 5 * rand_mat(2, 1) + 1;
-			while (norm(x0) > a[1]); //a to s¹ alfy z konspektu
+			while (norm(x0) > a[0]); //a to s¹ alfy z konspektu
 
-			cout << x0(0, 0) << " " << x0(1, 0)<<endl;
+			plik1 << x0(0, 0) << ";" << x0(1, 0)<<";";
 
-			solution sn = pen(x0, c, 0.5, 0.00001, 100000);
-
-			cout << sn.x(0, 0) << ";" << sn.x(1, 0) << ";" << sn.y[0] << solution::f_calls << endl;
-
+			/*solution snzew = pen(x0, c_zew, 2, 0.001, 10000, &a[0]);
+			plik1 << snzew.x(0, 0) << ";" << snzew.x(1, 0) << ";" <<norm(snzew.x)<<";"<< snzew.y[0] << solution::f_calls<<";";
+			cout << snzew.x(0, 0) << ";" << snzew.x(1, 0) << ";" << norm(snzew.x) << ";" << snzew.y[0] << solution::f_calls << ";";
+			solution::clear_calls();*/
+			solution sn = pen(x0, c_wew, 0.5, 0.001, 10000, &a[0]);
+			plik1 << sn.x(0, 0) << ";" << sn.x(1, 0) << ";" << norm(sn.x) <<";"<< sn.y[0] << solution::f_calls << endl;
+			cout << sn.x(0, 0) << ";" << sn.x(1, 0) << ";" << norm(sn.x) << ";" << sn.y[0] << solution::f_calls << endl;
+			solution::clear_calls();
+			
 		}
+		
 
 
 #elif LAB_NO==4 && LAB_PART==2

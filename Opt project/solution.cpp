@@ -97,6 +97,31 @@ void solution::fit_fun(matrix* ud, matrix* ad)
 #elif LAB_NO==4 && LAB_PART==1
 	y = sin(3.1415 * sqrt(pow(x(0) / 3.1415, 2) + pow(x(1) / 3.1415, 2)));
 	y = y / (3.1415 * sqrt(pow(x(0) / 3.1415, 2) + pow(x(1) / 3.1415, 2)));
+	
+	if ((*ad)(1) > 1) //KARA ZEWNETRZNA
+	{
+		if (-x(0) + 1 > 0)
+			y = y + (*ad)(0) * pow(-x(0) + 1, 2);
+		if (-x(1) + 1 > 0)
+			y = y + (*ad)(0) * pow(-x(1) + 1, 2);
+		if (norm(x) - (*ud)(0) > 0)
+			y = y + (*ad)(0) * pow(norm(x) - (*ud)(0), 2);
+	}
+	else {
+		if (-x(0) + 1 > 0)
+			y = 1e10;
+		else
+			y = y - (*ad)(0) / (-x(0) + 1);
+		if (-x(1) + 1 > 0)
+			y = 1e10;
+		else
+			y = y - (*ad)(0) / (-x(1) + 1);
+		if (norm(x) - (*ud)(0) > 0)
+			y = 1e10;
+		else
+			y = y - (*ad)(0) / (norm(x) - (*ud)(0));
+	}
+
 
 
 #elif LAB_NO==4 && LAB_PART==2
@@ -120,7 +145,9 @@ void solution::grad(matrix *ud, matrix *ad)
 {
 	++g_calls;
 #if LAB_NO==5 && (LAB_PART==1 || LAB_PART==2)
-	
+	g = matrix(2, 1);
+	g0(0) = 10 * x(0) + 8 * x(1) - 34;
+	g(1) = 8 * x(0) + 10 * x(1) - 38;
 #elif LAB_NO==5 && LAB_PART==3
 	
 #endif

@@ -125,7 +125,28 @@ void solution::fit_fun(matrix* ud, matrix* ad)
 
 
 #elif LAB_NO==4 && LAB_PART==2
-	
+	matrix Y0(4, new double[4]{ 0,x(0), 100, 0 });
+	matrix omega(x(1));
+	matrix* Y = solve_ode(0, 0.01, 7, Y0, &omega);
+	int n = get_len(Y[0]);
+	int i0 = 0, i50 = 0;
+	for (int i = 1; i < n; ++i)
+	{
+		if (abs(Y[1](i, 2) - 50) < abs(Y[1](i50, 2) - 50))
+			i50 = i;
+		if (abs(Y[1](i, 2)) < abs(Y[1](i0, 2)))
+			i0 = i;
+	}
+	y = -Y[1](i0, 0);
+	if (abs(x(0)) - 10 > 0)
+		y = y + (*ad)(0) * pow(abs(x(0)) - 10, 2);
+	if (abs(x(1) - 20 > 0))
+		y = y + (*ad)(0) * pow(abs(x(1)) - 20, 2);
+	if (abs(Y[1](i50, 0) - 5) - 1 > 0)
+		y = y + (*ad)(0) * pow(abs(Y[1](i50, 0) - 5) - 1, 2);
+
+
+
 #elif LAB_NO==5 && (LAB_PART==1 || LAB_PART==2)
 	
 #elif LAB_NO==5 && LAB_PART==3
@@ -157,6 +178,10 @@ void solution::hess(matrix *ud, matrix *ad)
 {
 	++H_calls;
 #if LAB_NO==5 && (LAB_PART==1 || LAB_PART==2)
-	
+	H = matrix(2, 2);
+	H(0, 0) = 10;
+	H(0, 1) = 8;
+	H(1, 0) = 8
+	H(1, 1) = 10;
 #endif
 }

@@ -201,7 +201,7 @@ int main()
 	
 		ofstream plik1("konspekt_3_f_1.csv");
 		matrix x0;
-		double c_zew = 1, c_wew=10;
+		double c_zew = 1, c_wew=1;
 		matrix a[3] = { 4, 4.4934, 5 };
 		
 		for (int i = 0; i < 100; i++)
@@ -209,25 +209,39 @@ int main()
 
 			do
 				x0 = 5 * rand_mat(2, 1) + 1;
-			while (norm(x0) > a[0]); //a to s¹ alfy z konspektu
+			while (norm(x0) > a[2]); //a to s¹ alfy z konspektu
 
 			plik1 << x0(0, 0) << ";" << x0(1, 0)<<";";
 
-			/*solution snzew = pen(x0, c_zew, 2, 0.001, 10000, &a[0]);
+			solution snzew = pen(x0, c_zew, 2, 0.001, 10000, &a[2]);
 			plik1 << snzew.x(0, 0) << ";" << snzew.x(1, 0) << ";" <<norm(snzew.x)<<";"<< snzew.y[0] << solution::f_calls<<";";
 			cout << snzew.x(0, 0) << ";" << snzew.x(1, 0) << ";" << norm(snzew.x) << ";" << snzew.y[0] << solution::f_calls << ";";
-			solution::clear_calls();*/
-			solution sn = pen(x0, c_wew, 0.5, 0.001, 10000, &a[0]);
+			solution::clear_calls();
+			solution sn = pen(x0, c_wew, 0.5, 0.001, 10000, &a[2]);
 			plik1 << sn.x(0, 0) << ";" << sn.x(1, 0) << ";" << norm(sn.x) <<";"<< sn.y[0] << solution::f_calls << endl;
 			cout << sn.x(0, 0) << ";" << sn.x(1, 0) << ";" << norm(sn.x) << ";" << sn.y[0] << solution::f_calls << endl;
 			solution::clear_calls();
-			
 		}
 		
 
 
 #elif LAB_NO==4 && LAB_PART==2
-		
+		ofstream plik2("konspekt_3_f_2.csv");
+		matrix x0(2, 1);
+		x0(0, 0) = 0;
+		x0(1, 0) = 0;
+		solution rzecz = pen(x0, 1, 2, 0.001, 10000);
+		cout << rzecz.x(0, 0) << ";" << rzecz.x(1, 0) << ";" << rzecz.y[0] << solution::f_calls;
+		solution::clear_calls();
+
+		matrix xopt(2, 1);
+		xopt(0, 0) = -2.34568;
+		xopt(1, 0) = 20.0005;
+
+		matrix Y0(4, new double[4]{ 0,xopt(0), 100, 0 });
+		matrix omega(xopt(1));
+		matrix* Y = solve_ode(0, 0.01, 7, Y0, &omega);
+
 #elif LAB_NO==5 && LAB_PART==1
 		
 #elif LAB_NO==5 && LAB_PART==2

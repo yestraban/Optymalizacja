@@ -392,10 +392,10 @@ solution sym_NM(matrix x0, double s, double alpha, double beta, double gamma, do
 		for (int i = 0; i < N; ++i)
 			if (i != i_max)
 				pc = pc + S[i].x;
-		pc = pc / (n);
+		pc = pc / (N-1);
 		PR.x = pc + alpha * (pc - S[i_max].x);
 		PR.fit_fun(ud, ad);
-		if (S[i_min].y <= PR.y < S[i_max].y)
+		if (PR.y < S[i_max].y && S[i_min].y <= PR.y)
 			S[i_max] = PR;				//idk czy tak
 		else if (PR.y<S[i_min].y)		//porównaæ kod
 		{
@@ -450,8 +450,8 @@ solution SD(matrix x0, double h0, double epsilon, int Nmax, matrix *ud, matrix *
 			P[0] = X.x;
 			P[1] = d;
 			ab = expansion(0, 1, 1.2, Nmax, ud, P);
-				h = golden(ab[0], ab[1], epsilon, Nmax);
-				X1.x = X.x + h * d;
+			h = golden(ab[0], ab[1], epsilon, Nmax, ud, P);		
+			X1.x = X.x + h.x * d;
 		}
 		else
 			X1.x = X.x + h0 * d;
@@ -476,31 +476,32 @@ solution CG(matrix x0, double h0, double epsilon, int Nmax, matrix *ud, matrix *
 	solution h;
 	double *ab, beta;
 	X.grad();
-	d = ???
+	d = -X.g;
 	while (true)
 	{
 		if (h0<0)
 		{
-			P[0] = ???
-			P[1] = ???
-			ab = ???
-			h = ???
-			X1.x = ???
+			P[0] = X.x;
+			P[1] = d;
+			ab = expansion(0, 1, 1.2, Nmax, ud, P);
+			h = golden(ab[0], ab[1], epsilon, Nmax, ud, P);		
+			X1.x = X.x + h.x * d;
 		}
 		else
-			X1.x = ???
+			X1.x = X.x + h0 * d;
 #if LAB_NO==5 && LAB_PART==2
 		???
 #endif
-		if (???)
+		if (norm(X1.x - X.x) < epsilon || solution::f_calls > Nmax || solution::g_calls > Nmax))
 		{
 			X1.fit_fun(ud);
 			return X1;
 		}
 		X1.grad();
-		beta = ???
-		d = ???
-		???
+		//beta = (matrix::trans(X1.g) * (X1.g - X.g)) / (matrix::trans(d) * (X1.g - X.g));  //porównaæ to
+		beta = pow(norm(X1.g), 2) / pow(norm(X.g), 2);
+		d = beta*d - X1.g;
+		X = X1;
 	}
 }
 
@@ -516,26 +517,26 @@ solution Newton(matrix x0, double h0, double epsilon, int Nmax, matrix *ud, matr
 	{
 		X.grad();
 		X.hess();
-		d = ???
+		d = -matrix::inv(X.H) * X.g;
 		if (h0<0)
 		{
-			P[0] = ???
-			P[1] = ???
-			ab = ???
-			h = ???
-			X1.x = ???
+			P[0] = X.x;
+			P[1] = d;
+			ab = expansion(0, 1, 1.2, Nmax, ud, P);
+			h = golden(ab[0], ab[1], epsilon, Nmax, ud, P);
+			X1.x = X.x + h.x* d;
 		}
 		else
-			X1.x = ???
+			X1.x = X.x + h0 * d;
 #if LAB_NO==5 && LAB_PART==2
 		???
 #endif
-		if (???)
+		if (norm(X1.x - X.x) < epsilon || solution::f_calls > Nmax || solution::g_calls > Nmax || solution::H_calls > Nmax || X.g==0)
 		{
 			X1.fit_fun(ud);
 			return X1;
 		}
-		???
+		X = X1;
 	}
 }
 

@@ -167,7 +167,7 @@ void solution::grad(matrix *ud, matrix *ad)
 	++g_calls;
 #if LAB_NO==5 && (LAB_PART==1 || LAB_PART==2)
 	g = matrix(2, 1);
-	g0(0) = 10 * x(0) + 8 * x(1) - 34;
+	g(0) = 10 * x(0) + 8 * x(1) - 34;
 	g(1) = 8 * x(0) + 10 * x(1) - 38;
 #elif LAB_NO==5 && LAB_PART==3
 	

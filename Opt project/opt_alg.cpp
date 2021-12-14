@@ -586,7 +586,7 @@ solution Powell(matrix x0, double epsilon, int Nmax, matrix *ud, matrix *ad)
 	double *ab;
 	while (true)
 	{
-		P = ???
+		P = X;
 		for (int i = 0; ???; ++i)
 		{
 			A[0] = ???

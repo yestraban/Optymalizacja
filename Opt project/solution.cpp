@@ -148,7 +148,21 @@ void solution::fit_fun(matrix* ud, matrix* ad)
 
 
 #elif LAB_NO==5 && (LAB_PART==1 || LAB_PART==2)
-	
+	if (ad == nullptr)
+	{
+		y = pow(x(0) + 2 * x(1) - 7, 2);
+		y = y + pow(2 * x(0) + x(1) - 5, 2);
+	}
+	else
+	{
+		solution temp;
+		temp.x = ad[0] + x * ad[1]; //ad[0] x, x = alfa, ad[1] = d
+		temp.fit_fun(ud);
+		y = temp.y;
+		--f_calls;
+	}
+
+
 #elif LAB_NO==5 && LAB_PART==3
 	
 #elif LAB_NO==6 && LAB_PART==1
@@ -181,7 +195,7 @@ void solution::hess(matrix *ud, matrix *ad)
 	H = matrix(2, 2);
 	H(0, 0) = 10;
 	H(0, 1) = 8;
-	H(1, 0) = 8
+	H(1, 0) = 8;
 	H(1, 1) = 10;
 #endif
 }

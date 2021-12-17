@@ -492,7 +492,7 @@ solution CG(matrix x0, double h0, double epsilon, int Nmax, matrix *ud, matrix *
 #if LAB_NO==5 && LAB_PART==2
 		???
 #endif
-		if (norm(X1.x - X.x) < epsilon || solution::f_calls > Nmax || solution::g_calls > Nmax))
+		if (norm(X1.x - X.x) < epsilon || solution::f_calls > Nmax || solution::g_calls > Nmax)
 		{
 			X1.fit_fun(ud);
 			return X1;
@@ -517,7 +517,7 @@ solution Newton(matrix x0, double h0, double epsilon, int Nmax, matrix *ud, matr
 	{
 		X.grad();
 		X.hess();
-		d = -matrix::inv(X.H) * X.g;
+		d = -inv(X.H) * X.g;
 		if (h0<0)
 		{
 			P[0] = X.x;
@@ -531,7 +531,7 @@ solution Newton(matrix x0, double h0, double epsilon, int Nmax, matrix *ud, matr
 #if LAB_NO==5 && LAB_PART==2
 		???
 #endif
-		if (norm(X1.x - X.x) < epsilon || solution::f_calls > Nmax || solution::g_calls > Nmax || solution::H_calls > Nmax || X.g==0)
+		if (norm(X1.x - X.x) < epsilon || solution::f_calls > Nmax || solution::g_calls > Nmax  || X.g==0)
 		{
 			X1.fit_fun(ud);
 			return X1;
@@ -587,7 +587,7 @@ solution Powell(matrix x0, double epsilon, int Nmax, matrix *ud, matrix *ad)
 	while (true)
 	{
 		P = X;
-		for (int i = 0; ???; ++i)
+		for (int i = 0; i<n+1; ++i)
 		{
 			A[0] = ???
 			A[1] = ???

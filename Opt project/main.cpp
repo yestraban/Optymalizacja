@@ -243,6 +243,31 @@ int main()
 		matrix* Y = solve_ode(0, 0.01, 7, Y0, &omega);
 
 #elif LAB_NO==5 && LAB_PART==1
+
+	ofstream plik1("konspekt_4_f_1.csv");
+	matrix x0(2, 1);
+	double krok[3] = { 0.05, 0.12, -1 };
+	for (int i = 0; i < 100; i++)
+	{
+		double x01 = rand() % 2000 - 1000;
+		double x02 = rand() % 2000 - 1000;
+		x01 /= 100;
+		x02 /= 100;
+		x0(0, 0) = x01;
+		x0(1, 0) = x02;
+		
+		solution sdsol = SD(x0, krok[0], 0.001, 10000);
+		//cout << x01 << ";" << x02 << ";" << sdsol.x(0, 0) << ";" << sdsol.x(1, 0) << ";" << sdsol.y[0] << solution::f_calls <<";"<< solution::g_calls<<endl;
+		solution::clear_calls;
+		solution cgsol = CG(x0, krok[0], 0.01, 10000);
+		//cout << cgsol.x(0, 0) << ";" << cgsol.x(1, 0) << ";" << cgsol.y[0] << solution::f_calls << ";" << solution::g_calls << endl;
+
+		solution::clear_calls;
+
+		solution newtsol = Newton(x0, krok[0], 0.001, 10000);
+		cout << newtsol.x(0, 0) << ";" << newtsol.x(1, 0) << ";" << newtsol.y[0] << solution::f_calls << ";" << solution::g_calls << endl;
+		solution::clear_calls;
+	}
 		
 #elif LAB_NO==5 && LAB_PART==2
 		

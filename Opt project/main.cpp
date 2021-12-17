@@ -246,7 +246,7 @@ int main()
 
 	ofstream plik1("konspekt_4_f_1.csv");
 	matrix x0(2, 1);
-	double krok[3] = { 0.05, 0.12, -1 };
+	double krok[3] = { 0.05, 0.13, -1 };
 	for (int i = 0; i < 100; i++)
 	{
 		double x01 = rand() % 2000 - 1000;
@@ -256,23 +256,78 @@ int main()
 		x0(0, 0) = x01;
 		x0(1, 0) = x02;
 		
-		solution sdsol = SD(x0, krok[0], 0.001, 10000);
-		//cout << x01 << ";" << x02 << ";" << sdsol.x(0, 0) << ";" << sdsol.x(1, 0) << ";" << sdsol.y[0] << solution::f_calls <<";"<< solution::g_calls<<endl;
-		solution::clear_calls;
-		solution cgsol = CG(x0, krok[0], 0.01, 10000);
-		//cout << cgsol.x(0, 0) << ";" << cgsol.x(1, 0) << ";" << cgsol.y[0] << solution::f_calls << ";" << solution::g_calls << endl;
+		//solution sdsol = SD(x0, krok[1], 0.01, 1000);
+		//plik1 << x01 << ";" << x02 << ";" << sdsol.x(0, 0) << ";" << sdsol.x(1, 0) << ";" << sdsol.y[0] << solution::f_calls << ";" << solution::g_calls << ";";
+		solution::f_calls = 0;
+		solution::g_calls = 0;
+		solution cgsol = CG(x0, krok[1], 0.01, 1000);
+		plik1 << x01 << ";" << x02 << ";"<< cgsol.x(0, 0) << ";" << cgsol.x(1, 0) << ";" << cgsol.y[0] << solution::f_calls << ";" << solution::g_calls << ";";
 
-		solution::clear_calls;
+		solution::f_calls = 0;
+		solution::g_calls = 0;
 
-		solution newtsol = Newton(x0, krok[0], 0.001, 10000);
-		cout << newtsol.x(0, 0) << ";" << newtsol.x(1, 0) << ";" << newtsol.y[0] << solution::f_calls << ";" << solution::g_calls << endl;
-		solution::clear_calls;
+		solution newtsol = Newton(x0, krok[1], 0.01, 1000);
+		plik1 << newtsol.x(0, 0) << ";" << newtsol.x(1, 0) << ";" << newtsol.y[0] << solution::f_calls << ";" << solution::g_calls <<";"<<solution::H_calls<< endl;
+		solution::f_calls = 0;
+		solution::g_calls = 0;
+		solution::H_calls = 0;
 	}
 		
 #elif LAB_NO==5 && LAB_PART==2
-		
+	ofstream plik1("konspekt_4_f_4.csv");
+	matrix x0(2, 1);
+	double x01 = -6.3;
+	double x02 = 3.5;
+	double krok[3] = { 0.05, 0.12, -1 };
+	x0(0, 0) = x01;
+	x0(1, 0) = x02;
+	solution sdsol = SD(x0, krok[1], 0.01, 1000);
+	//plik1 << x01 << ";" << x02 << ";" << sdsol.x(0, 0) << ";" << sdsol.x(1, 0) << ";" << sdsol.y[0] << solution::f_calls << ";" << solution::g_calls << ";";
+	solution::f_calls = 0;
+	solution::g_calls = 0;
+	cout << "==========================" << endl;
+	//solution cgsol = CG(x0, krok[2], 0.01, 1000);
+	//plik1 << x01 << ";" << x02 << ";" << cgsol.x(0, 0) << ";" << cgsol.x(1, 0) << ";" << cgsol.y[0] << solution::f_calls << ";" << solution::g_calls << ";";
+
+	solution::f_calls = 0;
+	solution::g_calls = 0;
+	cout << "==========================" << endl;
+
+	//solution newtsol = Newton(x0, krok[2], 0.01, 1000);
+	//plik1 << newtsol.x(0, 0) << ";" << newtsol.x(1, 0) << ";" << newtsol.y[0] << solution::f_calls << ";" << solution::g_calls << ";" << solution::H_calls << endl;
+	solution::f_calls = 0;
+	solution::g_calls = 0;
+	solution::H_calls = 0;
+
 #elif LAB_NO==5 && LAB_PART==3
+		matrix x0(3, 1);
+		x0(0, 0) = 0;
+		x0(1, 0) = 0;
+		x0(2, 0) = 0;
 		
+		double m = 100;
+		matrix X(3, m), Y(1, m);
+		ifstream S("XData.txt");
+		S >> X;
+		S.close();
+		S.open("YData.txt");
+		S >> Y;
+		S.close();
+		double krok[3] = { 0.01, 0.001, 0.0001 };
+		
+		solution problemsol = CG(x0, krok[0], 0.0001, 1000);
+		double h, P = 0.0;
+		for (int i = 0; i < m; i++)
+		{
+			h = 1 / (1 + exp(-(trans(problemsol.x) * X[i])()));
+			if (lroundf(h) == Y(0, i))
+				h = 1;
+			else
+				h = 0;
+			P += h;
+		}
+		P /= m;
+		cout << problemsol.x(0,0) << ";" << problemsol.x(1,0) << ";" << problemsol.x(2,0) << ";" << problemsol.y(0,0) << problemsol.g_calls << ";" <<P << endl;
 #elif LAB_NO==6 && LAB_PART==1
 		
 #elif LAB_NO==6 && LAB_PART==2

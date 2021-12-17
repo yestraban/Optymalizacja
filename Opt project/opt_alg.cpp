@@ -456,7 +456,8 @@ solution SD(matrix x0, double h0, double epsilon, int Nmax, matrix *ud, matrix *
 		else
 			X1.x = X.x + h0 * d;
 #if LAB_NO==5 && LAB_PART==2
-		???
+		//cout << X1.x(0,0) << ";" <<X1.x(1, 0) << endl;
+		cout <<trans(X1.x)<< endl;
 #endif
 		if (norm(X1.x-X.x)<epsilon || solution::f_calls>Nmax)
 		{
@@ -490,7 +491,7 @@ solution CG(matrix x0, double h0, double epsilon, int Nmax, matrix *ud, matrix *
 		else
 			X1.x = X.x + h0 * d;
 #if LAB_NO==5 && LAB_PART==2
-		???
+		cout << trans(X1.x) << endl;
 #endif
 		if (norm(X1.x - X.x) < epsilon || solution::f_calls > Nmax || solution::g_calls > Nmax)
 		{
@@ -529,9 +530,9 @@ solution Newton(matrix x0, double h0, double epsilon, int Nmax, matrix *ud, matr
 		else
 			X1.x = X.x + h0 * d;
 #if LAB_NO==5 && LAB_PART==2
-		???
+		cout << trans(X1.x) << endl;
 #endif
-		if (norm(X1.x - X.x) < epsilon || solution::f_calls > Nmax || solution::g_calls > Nmax  || X.g==0)
+		if (norm(X1.x - X.x) < epsilon || solution::f_calls > Nmax || solution::g_calls > Nmax )
 		{
 			X1.fit_fun(ud);
 			return X1;
